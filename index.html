@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f8f6f2">
+    <meta name="description" content="Rangkai outfit harianmu dari koleksi pakaian sendiri. Foto dan lemari tersimpan pribadi di perangkatmu.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Ruang Outfit — Lemari Pakaian">
+    <meta property="og:description" content="Rangkai outfit harianmu dari koleksi pakaian sendiri, dengan nyaman di ponsel maupun komputer.">
+    <meta name="twitter:card" content="summary">
+    <title>Ruang Outfit — Lemari Pakaian</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="Ruang Outfit, beranda">
+        <span class="brand-mark" aria-hidden="true">r.</span>
+        <span>ruang<span class="brand-light">outfit</span></span>
+      </a>
+      <span class="storage-note"><span class="storage-dot"></span> Tersimpan di perangkat ini</span>
+    </header>
+
+    <main>
+      <section class="outfit-section" aria-labelledby="outfit-title">
+        <div class="section-intro">
+          <div>
+            <p class="eyebrow">MIX &amp; MATCH</p>
+            <h1 id="outfit-title">Outfit pilihanmu</h1>
+            <p class="section-copy">Susunan vertikal dari kerudung hingga sepatu.</p>
+          </div>
+          <button class="text-button" id="clear-outfit" type="button" hidden>Hapus pilihan</button>
+        </div>
+        <div class="outfit-stage">
+          <div class="outfit-grid" id="outfit-grid" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="wardrobe-section" aria-labelledby="wardrobe-title">
+        <div class="wardrobe-heading">
+          <div>
+            <p class="eyebrow">KOLEKSI PRIBADI</p>
+            <h2 id="wardrobe-title">Lemari Pakaian <span id="item-count" class="count-badge">0</span></h2>
+          </div>
+          <div class="heading-actions">
+            <button class="button button-secondary" id="manage-categories" type="button">
+              <span aria-hidden="true">☷</span> Kelola kategori
+            </button>
+            <button class="button button-primary" id="add-item" type="button">
+              <span class="plus-icon" aria-hidden="true">+</span> Tambah pakaian
+            </button>
+          </div>
+        </div>
+
+        <div class="filters" aria-label="Filter lemari pakaian">
+          <label class="filter-field">
+            <span class="sr-only">Filter kategori</span>
+            <select id="category-filter">
+              <option value="">Semua kategori</option>
+            </select>
+          </label>
+          <label class="filter-field">
+            <span class="sr-only">Filter warna</span>
+            <select id="color-filter">
+              <option value="">Semua warna</option>
+            </select>
+          </label>
+          <button class="favorite-filter" id="favorite-filter" type="button" aria-pressed="false">
+            <span aria-hidden="true">♡</span> Favorit outfit
+          </button>
+        </div>
+
+        <div class="clothing-grid" id="clothing-grid" aria-live="polite"></div>
+        <p class="status-message" id="status-message" role="status" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <dialog class="modal" id="item-dialog" aria-labelledby="item-dialog-title">
+      <form id="item-form">
+        <div class="modal-heading">
+          <div>
+            <p class="eyebrow">KOLEKSI BARU</p>
+            <h2 id="item-dialog-title">Tambah pakaian</h2>
+          </div>
+          <button class="icon-button close-dialog" type="button" aria-label="Tutup">×</button>
+        </div>
+        <label class="upload-area" for="photo-input" id="upload-area">
+          <img id="photo-preview" alt="Pratinjau foto pakaian" hidden>
+          <span class="upload-placeholder" id="upload-placeholder">
+            <span class="upload-symbol" aria-hidden="true">↑</span>
+            <strong>Pilih foto pakaian</strong>
+            <span>Format gambar, tersimpan hanya di perangkat ini</span>
+          </span>
+        </label>
+        <input id="photo-input" name="photo" type="file" accept="image/*" required hidden>
+
+        <label class="form-field">
+          <span>Nama pakaian <span class="optional">(opsional)</span></span>
+          <input id="item-name" name="name" type="text" maxlength="60" placeholder="Contoh: Kemeja linen putih">
+        </label>
+        <div class="form-row">
+          <label class="form-field">
+            <span>Kategori</span>
+            <select id="item-category" name="category" required></select>
+          </label>
+          <label class="form-field">
+            <span>Warna</span>
+            <select id="item-color" name="color" required></select>
+          </label>
+        </div>
+        <div class="form-row add-value-row">
+          <label class="form-field">
+            <span>Atau tambah kategori</span>
+            <input id="new-item-category" type="text" maxlength="30" placeholder="Nama kategori baru">
+          </label>
+          <label class="form-field">
+            <span>Atau tambah warna</span>
+            <input id="new-item-color" type="text" maxlength="30" placeholder="Nama warna baru">
+          </label>
+        </div>
+        <p class="form-error" id="item-form-error" role="alert"></p>
+        <button class="button button-primary submit-button" type="submit">Simpan ke lemari</button>
+      </form>
+    </dialog>
+
+    <dialog class="modal category-modal" id="category-dialog" aria-labelledby="category-dialog-title">
+      <div class="modal-heading">
+        <div>
+          <p class="eyebrow">ATUR LEMARI</p>
+          <h2 id="category-dialog-title">Kategori pakaian</h2>
+        </div>
+        <button class="icon-button close-dialog" type="button" aria-label="Tutup">×</button>
+      </div>
+      <p class="dialog-copy">Tambah kategori sesuai isi lemari. Jika kategori dihapus, pakaiannya dipindahkan ke kategori lain.</p>
+      <form id="category-form" class="category-add-form">
+        <label class="sr-only" for="new-category">Nama kategori baru</label>
+        <input id="new-category" type="text" maxlength="30" placeholder="Contoh: Baju tidur" required>
+        <button class="button button-primary" type="submit">Tambah</button>
+      </form>
+      <div id="category-list" class="category-list"></div>
+      <p class="form-error" id="category-form-error" role="alert"></p>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
